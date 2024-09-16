@@ -139,11 +139,6 @@ func main() {
 	c := 270
 	ChangeVariableByAddress(&c)
 	fmt.Printf("c : %v\n", c)
-
-	var o *[]int
-	if o == nil {
-		fmt.Println("Gorgali")
-	}
 }
 
 // func applyFunction(f func(int) int, num int) int {
