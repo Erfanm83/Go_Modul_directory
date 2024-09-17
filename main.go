@@ -116,29 +116,162 @@ func main() {
 	// fmt.Println(multiply(5, 25))
 
 	//////////////////////////////////////////////////// Third Strike
-	var a int = 24
-	var p *int = &a
-	fmt.Println(p)  // Referencing
-	fmt.Println(*p) //  Dereferencing
+	// var a int = 24
+	// var p *int = &a
+	// fmt.Println(p)  // Referencing
+	// fmt.Println(*p) //  Dereferencing
 
-	*p = 27 // Changing the value of where the pointer points at
-	fmt.Println(exampleFunction(p))
+	// *p = 27 // Changing the value of where the pointer points at
+	// fmt.Println(exampleFunction(p))
 
-	//new variable
-	p_new := new(string)
-	*p_new = "example"
-	fmt.Println(*p_new)
-	fmt.Println(p_new)
+	// //new variable
+	// p_new := new(string)
+	// *p_new = "example"
+	// fmt.Println(*p_new)
+	// fmt.Println(p_new)
 
-	// Call by Value
-	b := 250
-	ChangeVariable(b)
-	fmt.Printf("b : %v\n", b)
+	// // Call by Value
+	// b := 250
+	// ChangeVariable(b)
+	// fmt.Printf("b : %v\n", b)
 
-	// Call by Reference
-	c := 270
-	ChangeVariableByAddress(&c)
-	fmt.Printf("c : %v\n", c)
+	// // Call by Reference
+	// c := 270
+	// ChangeVariableByAddress(&c)
+	// fmt.Printf("c : %v\n", c)
+
+	// println(*intPointer())
+	// println(intValue())
+
+	//////////////////////////////////////////////////// Forth Strike
+	type Student struct {
+		FirstName, LastName string
+		Age                 int
+		Major               string
+	}
+
+	// without initialization
+	var s1 Student
+	fmt.Printf("%+v\n", s1)
+
+	// initialize all fields
+	var s2 Student = Student{FirstName: "Olivia", LastName: "Martin", Age: 18, Major: "Electrical Engineering"}
+	fmt.Printf("%+v\n", s2)
+
+	// initialize some fields
+	var s3 = Student{FirstName: "Jack", Age: 24}
+	fmt.Printf("%+v\n", s3)
+
+	// definition with ':=' can possible with quantification
+	s4 := Student{FirstName: "James", Major: "Industrial Engineering"}
+	fmt.Printf("%+v\n", s4)
+
+	// definition without mentioning feilds
+	var s5 = Student{"Sophia", "Smith", 19, "Computer Engineering"}
+	fmt.Printf("%+v\n", s5)
+
+	// Anonymous Struct (Struct Without Name)
+	var tmp = struct {
+		ProductName string
+		Price       int
+	}{Price: 40000, ProductName: "Chips"}
+
+	fmt.Printf("Anonymous Struct: %+v\n", tmp)
+
+	s := Student{
+		Age:   22,
+		Major: "Civil Engineering",
+	}
+
+	fmt.Printf("Major : %s\n", s.Major)
+	fmt.Printf("Age : %d\n", s.Age)
+
+	type Person struct {
+		Name      string
+		Age       int
+		Favorites []string
+	}
+
+	// Slice of Structs
+	people := make([]Person, 0)
+
+	people = append(people, Person{Name: "Emily", Age: 20, Favorites: []string{"running", "watch TV"}})
+
+	p2 := Person{
+		Name:      "Joe",
+		Age:       30,
+		Favorites: []string{"chess"},
+	}
+
+	people = append(people, p2)
+
+	for i, v := range people {
+		fmt.Printf("%d. Name : %s Age : %d Favorites : ", i+1, v.Name, v.Age)
+
+		for j, f := range v.Favorites {
+			fmt.Printf("%d. %s ", j+1, f)
+		}
+
+		fmt.Printf("\n")
+
+	}
+
+	// Building a struct of other structs =(Composition)=
+	// When We have "has a" relationship between structs
+	type CPU struct {
+		Brand string
+		Core  int
+		Speed float32
+	}
+	type Memory struct {
+		Capacity       int
+		FrequencyInMHz int
+	}
+	type Storage struct {
+		Capacity int
+		Type     string
+	}
+	type Computer struct {
+		cpu     CPU
+		memory  Memory
+		storage Storage
+	}
+
+	cpu := CPU{Brand: "Intel", Core: 8, Speed: 4.5}
+	memory := Memory{Capacity: 16, FrequencyInMHz: 3200}
+	storage := Storage{Capacity: 500, Type: "SSD"}
+
+	comp := Computer{cpu, memory, storage}
+
+	fmt.Printf("%+v\n", comp)
+	fmt.Println("Core : ", comp.cpu.Core)
+	fmt.Println("Memory Capacity : ", comp.memory.Capacity)
+
+	// Building a struct of other structs =(struct embedding)=
+	// When We have "is a" relationship between structs
+	type Product struct {
+		Name  string
+		Price int
+	}
+	type Electrical struct {
+		Product
+		WarrantyMonths int
+	}
+	type Clothing struct {
+		Product
+		Size     string
+		Material string
+	}
+
+	cl := Clothing{}
+	cl.Name = "Shirt"
+	cl.Price = 300
+	cl.Size = "S"
+	cl.Material = "Cotton"
+	fmt.Printf("%+v\n", cl)
+
+	el := Electrical{Product: Product{Name: "Lamp", Price: 40}, WarrantyMonths: 12}
+	fmt.Printf("%+v\n", el)
 }
 
 // func applyFunction(f func(int) int, num int) int {
@@ -212,4 +345,14 @@ func ChangeVariable(myVariable int) {
 
 func ChangeVariableByAddress(address *int) {
 	*address += 1
+}
+
+func intPointer() *int {
+	local1 := 1
+	return &local1
+}
+
+func intValue() int {
+	local2 := 2
+	return local2
 }
