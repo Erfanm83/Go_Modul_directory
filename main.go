@@ -9,6 +9,12 @@ import (
 	// "strings"
 )
 
+type Human struct {
+	FirstName string
+	LastName  string
+	Age       int
+}
+
 func main() {
 
 	//////////////////////////////////////////////////// First Strike
@@ -240,7 +246,7 @@ func main() {
 	cpu := CPU{Brand: "Intel", Core: 8, Speed: 4.5}
 	memory := Memory{Capacity: 16, FrequencyInMHz: 3200}
 	storage := Storage{Capacity: 500, Type: "SSD"}
-
+	// Computer has a cpu
 	comp := Computer{cpu, memory, storage}
 
 	fmt.Printf("%+v\n", comp)
@@ -263,15 +269,24 @@ func main() {
 		Material string
 	}
 
-	cl := Clothing{}
-	cl.Name = "Shirt"
-	cl.Price = 300
-	cl.Size = "S"
-	cl.Material = "Cotton"
+	// Clothing is a Product
+	cl := Clothing{Product{"Shirt", 300}, "S", "Cotton"}
 	fmt.Printf("%+v\n", cl)
 
+	// Electrical is a Product
 	el := Electrical{Product: Product{Name: "Lamp", Price: 40}, WarrantyMonths: 12}
 	fmt.Printf("%+v\n", el)
+
+	// Pointer to struct
+
+	p_human := Human{FirstName: "John", LastName: "Doe", Age: 40}
+	ptr := &p_human
+	fmt.Println(ptr.FirstName)
+	ptr.FirstName = "Bob"
+	fmt.Println(p_human.FirstName)
+	fmt.Println(p_human.Age)
+	increamentAge(&p_human)
+	fmt.Println(p_human.Age)
 }
 
 // func applyFunction(f func(int) int, num int) int {
@@ -335,24 +350,28 @@ func main() {
 // 	return v == b
 // }
 
-func exampleFunction(p *int) int {
-	return *p
-}
+// func exampleFunction(p *int) int {
+// 	return *p
+// }
 
-func ChangeVariable(myVariable int) {
-	myVariable += 1
-}
+// func ChangeVariable(myVariable int) {
+// 	myVariable += 1
+// }
 
-func ChangeVariableByAddress(address *int) {
-	*address += 1
-}
+// func ChangeVariableByAddress(address *int) {
+// 	*address += 1
+// }
 
-func intPointer() *int {
-	local1 := 1
-	return &local1
-}
+// func intPointer() *int {
+// 	local1 := 1
+// 	return &local1
+// }
 
-func intValue() int {
-	local2 := 2
-	return local2
+// func intValue() int {
+// 	local2 := 2
+// 	return local2
+// }
+
+func increamentAge(p *Human) {
+	p.Age++
 }
