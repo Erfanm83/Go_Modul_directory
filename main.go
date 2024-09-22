@@ -372,23 +372,38 @@ func main() {
 	// }
 	// time.Sleep(1 * time.Second)
 
-	c := make(chan int, 2)
-	go func() {
-		c <- 20
-	}()
-	c <- 40
-	fmt.Println(<-c)
-	second := <-c
-	fmt.Println(second)
+	// goroutines are in FIFO Order
+	// c := make(chan int, 2)
+	// go func() {
+	// 	c <- 20
+	// }()
+	// c <- 40
+	// fmt.Println(<-c)
+	// second := <-c
+	// fmt.Println(second)
 
 	//deadlock occurance
-	c1 := make(chan string, 2)
-	c1 <- "hi"
-	c1 <- "hey"
-	c1 <- "hello"
-	value := <-c1
-	fmt.Println(value)
+	// c1 := make(chan string, 2)
+	// c1 <- "hi"
+	// c1 <- "hey"
+	// c1 <- "hello"
+	// value := <-c1
+	// fmt.Println(value)
 
+	ch := make(chan int, 2)
+	ch <- 10
+	ch <- 20
+	close(ch)
+
+	for {
+		value, ok := <-ch
+		if !ok {
+			fmt.Println("Channel closed")
+			break
+		} else {
+			fmt.Println(value)
+		}
+	}
 }
 
 // func applyFunction(f func(int) int, num int) int {
