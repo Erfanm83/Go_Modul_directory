@@ -356,11 +356,11 @@ func main() {
 	// CleanAndDry(gp)
 
 	/////// Concurrency
-	people := []string{"Rose", "Erich", "Amelia"}
-	for _, person := range people {
-		go sayHello(person)
-	}
-	time.Sleep(1 * time.Second)
+	// people := []string{"Rose", "Erich", "Amelia"}
+	// for _, person := range people {
+	// 	go sayHello(person)
+	// }
+	// time.Sleep(1 * time.Second)
 
 	go func() {
 		for i := 0; i < 3; i++ {
