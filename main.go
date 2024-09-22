@@ -1,13 +1,15 @@
 package main
 
+// "bufio"
 import (
-	// "bufio"
 	"fmt"
-	// "os"
-	// "sort"
-	// "strconv"
-	// "strings"
+	"time"
 )
+
+// "os"
+// "sort"
+// "strconv"
+// "strings"
 
 type Human struct {
 	FirstName string
@@ -15,8 +17,56 @@ type Human struct {
 	Age       int
 }
 
-func main() {
+type Cat struct {
+	Color string
+}
 
+func (c Cat) ChangeColorByValue(color string) {
+	c.Color = color
+}
+
+func (c *Cat) ChangeColorByReference(color string) {
+	c.Color = color
+}
+
+// interface
+type WashingMachine interface {
+	// Cleaning(dc []dirtyClothes) []cleanClothes
+	Cleaning()
+	Drying()
+}
+
+// Empty Interface
+var emptyInterface interface{}
+
+// The Definition of types
+type Bosch struct{}
+type GPlus struct{}
+
+// The below funcs implement WashingMachine interface
+func (machine Bosch) Cleaning() {
+	fmt.Println("Bosch Cleaning")
+}
+
+func (machine Bosch) Drying() {
+	fmt.Println("Bosch Drying")
+}
+
+func (machine GPlus) Cleaning() {
+	fmt.Println("GPlus Cleaning")
+}
+
+func (machine GPlus) Drying() {
+	fmt.Println("GPlus Drying")
+}
+
+func CleanAndDry(machine WashingMachine) {
+	machine.Cleaning()
+	machine.Drying()
+}
+
+func main() {
+	go fmt.Println("Hi there!")
 	//////////////////////////////////////////////////// First Strike
 	// var n int
 	// fmt.Scanf("%d", &n)
@@ -150,143 +200,179 @@ func main() {
 	// println(intValue())
 
 	//////////////////////////////////////////////////// Forth Strike
-	type Student struct {
-		FirstName, LastName string
-		Age                 int
-		Major               string
+	// type Student struct {
+	// 	FirstName, LastName string
+	// 	Age                 int
+	// 	Major               string
+	// }
+
+	// // without initialization
+	// var s1 Student
+	// fmt.Printf("%+v\n", s1)
+
+	// // initialize all fields
+	// var s2 Student = Student{FirstName: "Olivia", LastName: "Martin", Age: 18, Major: "Electrical Engineering"}
+	// fmt.Printf("%+v\n", s2)
+
+	// // initialize some fields
+	// var s3 = Student{FirstName: "Jack", Age: 24}
+	// fmt.Printf("%+v\n", s3)
+
+	// // definition with ':=' can possible with quantification
+	// s4 := Student{FirstName: "James", Major: "Industrial Engineering"}
+	// fmt.Printf("%+v\n", s4)
+
+	// // definition without mentioning feilds
+	// var s5 = Student{"Sophia", "Smith", 19, "Computer Engineering"}
+	// fmt.Printf("%+v\n", s5)
+
+	// // Anonymous Struct (Struct Without Name)
+	// var tmp = struct {
+	// 	ProductName string
+	// 	Price       int
+	// }{Price: 40000, ProductName: "Chips"}
+
+	// fmt.Printf("Anonymous Struct: %+v\n", tmp)
+
+	// s := Student{
+	// 	Age:   22,
+	// 	Major: "Civil Engineering",
+	// }
+
+	// fmt.Printf("Major : %s\n", s.Major)
+	// fmt.Printf("Age : %d\n", s.Age)
+
+	// type Person struct {
+	// 	Name      string
+	// 	Age       int
+	// 	Favorites []string
+	// }
+
+	// // Slice of Structs
+	// people := make([]Person, 0)
+
+	// people = append(people, Person{Name: "Emily", Age: 20, Favorites: []string{"running", "watch TV"}})
+
+	// p2 := Person{
+	// 	Name:      "Joe",
+	// 	Age:       30,
+	// 	Favorites: []string{"chess"},
+	// }
+
+	// people = append(people, p2)
+
+	// for i, v := range people {
+	// 	fmt.Printf("%d. Name : %s Age : %d Favorites : ", i+1, v.Name, v.Age)
+
+	// 	for j, f := range v.Favorites {
+	// 		fmt.Printf("%d. %s ", j+1, f)
+	// 	}
+
+	// 	fmt.Printf("\n")
+
+	// }
+
+	// // Building a struct of other structs =(Composition)=
+	// // When We have "has a" relationship between structs
+	// type CPU struct {
+	// 	Brand string
+	// 	Core  int
+	// 	Speed float32
+	// }
+	// type Memory struct {
+	// 	Capacity       int
+	// 	FrequencyInMHz int
+	// }
+	// type Storage struct {
+	// 	Capacity int
+	// 	Type     string
+	// }
+	// type Computer struct {
+	// 	cpu     CPU
+	// 	memory  Memory
+	// 	storage Storage
+	// }
+
+	// cpu := CPU{Brand: "Intel", Core: 8, Speed: 4.5}
+	// memory := Memory{Capacity: 16, FrequencyInMHz: 3200}
+	// storage := Storage{Capacity: 500, Type: "SSD"}
+	// // Computer has a cpu
+	// comp := Computer{cpu, memory, storage}
+
+	// fmt.Printf("%+v\n", comp)
+	// fmt.Println("Core : ", comp.cpu.Core)
+	// fmt.Println("Memory Capacity : ", comp.memory.Capacity)
+
+	// // Building a struct of other structs =(struct embedding)=
+	// // When We have "is a" relationship between structs
+	// type Product struct {
+	// 	Name  string
+	// 	Price int
+	// }
+	// type Electrical struct {
+	// 	Product
+	// 	WarrantyMonths int
+	// }
+	// type Clothing struct {
+	// 	Product
+	// 	Size     string
+	// 	Material string
+	// }
+
+	// // Clothing is a Product
+	// cl := Clothing{Product{"Shirt", 300}, "S", "Cotton"}
+	// fmt.Printf("%+v\n", cl)
+
+	// // Electrical is a Product
+	// el := Electrical{Product: Product{Name: "Lamp", Price: 40}, WarrantyMonths: 12}
+	// fmt.Printf("%+v\n", el)
+
+	// // Pointer to struct
+
+	// p_human := Human{FirstName: "John", LastName: "Doe", Age: 40}
+	// ptr := &p_human
+	// fmt.Println(ptr.FirstName)
+	// ptr.FirstName = "Bob"
+	// fmt.Println(p_human.FirstName)
+	// fmt.Println(p_human.Age)
+	// increamentAge(&p_human)
+	// fmt.Println(p_human.Age)
+
+	//////////////////////////////////////////////////// Fifth Strike
+	// persianCat := Cat{Color: "white"}
+	// fmt.Println(persianCat.Color)
+
+	// // No Change Because copies the color string
+	// persianCat.ChangeColorByValue("black")
+	// fmt.Println(persianCat.Color)
+	// // Changes the color
+	// persianCat.ChangeColorByReference("black")
+	// fmt.Println(persianCat.Color)
+
+	// b := Bosch{}
+	// gp := GPlus{}
+
+	// CleanAndDry(b)
+	// CleanAndDry(gp)
+
+	/////// Concurrency
+	people := []string{"Rose", "Erich", "Amelia"}
+	for _, person := range people {
+		go sayHello(person)
 	}
+	time.Sleep(1 * time.Second)
 
-	// without initialization
-	var s1 Student
-	fmt.Printf("%+v\n", s1)
-
-	// initialize all fields
-	var s2 Student = Student{FirstName: "Olivia", LastName: "Martin", Age: 18, Major: "Electrical Engineering"}
-	fmt.Printf("%+v\n", s2)
-
-	// initialize some fields
-	var s3 = Student{FirstName: "Jack", Age: 24}
-	fmt.Printf("%+v\n", s3)
-
-	// definition with ':=' can possible with quantification
-	s4 := Student{FirstName: "James", Major: "Industrial Engineering"}
-	fmt.Printf("%+v\n", s4)
-
-	// definition without mentioning feilds
-	var s5 = Student{"Sophia", "Smith", 19, "Computer Engineering"}
-	fmt.Printf("%+v\n", s5)
-
-	// Anonymous Struct (Struct Without Name)
-	var tmp = struct {
-		ProductName string
-		Price       int
-	}{Price: 40000, ProductName: "Chips"}
-
-	fmt.Printf("Anonymous Struct: %+v\n", tmp)
-
-	s := Student{
-		Age:   22,
-		Major: "Civil Engineering",
-	}
-
-	fmt.Printf("Major : %s\n", s.Major)
-	fmt.Printf("Age : %d\n", s.Age)
-
-	type Person struct {
-		Name      string
-		Age       int
-		Favorites []string
-	}
-
-	// Slice of Structs
-	people := make([]Person, 0)
-
-	people = append(people, Person{Name: "Emily", Age: 20, Favorites: []string{"running", "watch TV"}})
-
-	p2 := Person{
-		Name:      "Joe",
-		Age:       30,
-		Favorites: []string{"chess"},
-	}
-
-	people = append(people, p2)
-
-	for i, v := range people {
-		fmt.Printf("%d. Name : %s Age : %d Favorites : ", i+1, v.Name, v.Age)
-
-		for j, f := range v.Favorites {
-			fmt.Printf("%d. %s ", j+1, f)
+	go func() {
+		for i := 0; i < 3; i++ {
+			fmt.Println("Goroutine:", i)
+			time.Sleep(time.Millisecond * 300)
 		}
-
-		fmt.Printf("\n")
-
+	}()
+	for i := 0; i < 3; i++ {
+		fmt.Println("Main:", i)
+		time.Sleep(time.Millisecond * 300)
 	}
-
-	// Building a struct of other structs =(Composition)=
-	// When We have "has a" relationship between structs
-	type CPU struct {
-		Brand string
-		Core  int
-		Speed float32
-	}
-	type Memory struct {
-		Capacity       int
-		FrequencyInMHz int
-	}
-	type Storage struct {
-		Capacity int
-		Type     string
-	}
-	type Computer struct {
-		cpu     CPU
-		memory  Memory
-		storage Storage
-	}
-
-	cpu := CPU{Brand: "Intel", Core: 8, Speed: 4.5}
-	memory := Memory{Capacity: 16, FrequencyInMHz: 3200}
-	storage := Storage{Capacity: 500, Type: "SSD"}
-	// Computer has a cpu
-	comp := Computer{cpu, memory, storage}
-
-	fmt.Printf("%+v\n", comp)
-	fmt.Println("Core : ", comp.cpu.Core)
-	fmt.Println("Memory Capacity : ", comp.memory.Capacity)
-
-	// Building a struct of other structs =(struct embedding)=
-	// When We have "is a" relationship between structs
-	type Product struct {
-		Name  string
-		Price int
-	}
-	type Electrical struct {
-		Product
-		WarrantyMonths int
-	}
-	type Clothing struct {
-		Product
-		Size     string
-		Material string
-	}
-
-	// Clothing is a Product
-	cl := Clothing{Product{"Shirt", 300}, "S", "Cotton"}
-	fmt.Printf("%+v\n", cl)
-
-	// Electrical is a Product
-	el := Electrical{Product: Product{Name: "Lamp", Price: 40}, WarrantyMonths: 12}
-	fmt.Printf("%+v\n", el)
-
-	// Pointer to struct
-
-	p_human := Human{FirstName: "John", LastName: "Doe", Age: 40}
-	ptr := &p_human
-	fmt.Println(ptr.FirstName)
-	ptr.FirstName = "Bob"
-	fmt.Println(p_human.FirstName)
-	fmt.Println(p_human.Age)
-	increamentAge(&p_human)
-	fmt.Println(p_human.Age)
+	time.Sleep(1 * time.Second)
 }
 
 // func applyFunction(f func(int) int, num int) int {
@@ -374,4 +460,8 @@ func main() {
 
 func increamentAge(p *Human) {
 	p.Age++
+}
+
+func sayHello(name string) {
+	fmt.Println("Hello " + name)
 }
