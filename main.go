@@ -3,7 +3,6 @@ package main
 // "bufio"
 import (
 	"fmt"
-	"time"
 )
 
 // "os"
@@ -11,62 +10,61 @@ import (
 // "strconv"
 // "strings"
 
-type Human struct {
-	FirstName string
-	LastName  string
-	Age       int
-}
+// type Human struct {
+// 	FirstName string
+// 	LastName  string
+// 	Age       int
+// }
 
-type Cat struct {
-	Color string
-}
+// type Cat struct {
+// 	Color string
+// }
 
-func (c Cat) ChangeColorByValue(color string) {
-	c.Color = color
-}
+// func (c Cat) ChangeColorByValue(color string) {
+// 	c.Color = color
+// }
 
-func (c *Cat) ChangeColorByReference(color string) {
-	c.Color = color
-}
+// func (c *Cat) ChangeColorByReference(color string) {
+// 	c.Color = color
+// }
 
-// interface
-type WashingMachine interface {
-	// Cleaning(dc []dirtyClothes) []cleanClothes
-	Cleaning()
-	Drying()
-}
+// // interface
+// type WashingMachine interface {
+// 	// Cleaning(dc []dirtyClothes) []cleanClothes
+// 	Cleaning()
+// 	Drying()
+// }
 
-// Empty Interface
-var emptyInterface interface{}
+// // Empty Interface
+// var emptyInterface interface{}
 
-// The Definition of types
-type Bosch struct{}
-type GPlus struct{}
+// // The Definition of types
+// type Bosch struct{}
+// type GPlus struct{}
 
-// The below funcs implement WashingMachine interface
-func (machine Bosch) Cleaning() {
-	fmt.Println("Bosch Cleaning")
-}
+// // The below funcs implement WashingMachine interface
+// func (machine Bosch) Cleaning() {
+// 	fmt.Println("Bosch Cleaning")
+// }
 
-func (machine Bosch) Drying() {
-	fmt.Println("Bosch Drying")
-}
+// func (machine Bosch) Drying() {
+// 	fmt.Println("Bosch Drying")
+// }
 
-func (machine GPlus) Cleaning() {
-	fmt.Println("GPlus Cleaning")
-}
+// func (machine GPlus) Cleaning() {
+// 	fmt.Println("GPlus Cleaning")
+// }
 
-func (machine GPlus) Drying() {
-	fmt.Println("GPlus Drying")
-}
+// func (machine GPlus) Drying() {
+// 	fmt.Println("GPlus Drying")
+// }
 
-func CleanAndDry(machine WashingMachine) {
-	machine.Cleaning()
-	machine.Drying()
-}
+// func CleanAndDry(machine WashingMachine) {
+// 	machine.Cleaning()
+// 	machine.Drying()
+// }
 
 func main() {
-	go fmt.Println("Hi there!")
 	//////////////////////////////////////////////////// First Strike
 	// var n int
 	// fmt.Scanf("%d", &n)
@@ -362,17 +360,35 @@ func main() {
 	// }
 	// time.Sleep(1 * time.Second)
 
+	// go func() {
+	// 	for i := 0; i < 3; i++ {
+	// 		fmt.Println("Goroutine:", i)
+	// 		time.Sleep(time.Millisecond * 300)
+	// 	}
+	// }()
+	// for i := 0; i < 3; i++ {
+	// 	fmt.Println("Main:", i)
+	// 	time.Sleep(time.Millisecond * 300)
+	// }
+	// time.Sleep(1 * time.Second)
+
+	c := make(chan int, 2)
 	go func() {
-		for i := 0; i < 3; i++ {
-			fmt.Println("Goroutine:", i)
-			time.Sleep(time.Millisecond * 300)
-		}
+		c <- 20
 	}()
-	for i := 0; i < 3; i++ {
-		fmt.Println("Main:", i)
-		time.Sleep(time.Millisecond * 300)
-	}
-	time.Sleep(1 * time.Second)
+	c <- 40
+	fmt.Println(<-c)
+	second := <-c
+	fmt.Println(second)
+
+	//deadlock occurance
+	c1 := make(chan string, 2)
+	c1 <- "hi"
+	c1 <- "hey"
+	c1 <- "hello"
+	value := <-c1
+	fmt.Println(value)
+
 }
 
 // func applyFunction(f func(int) int, num int) int {
@@ -458,10 +474,10 @@ func main() {
 // 	return local2
 // }
 
-func increamentAge(p *Human) {
-	p.Age++
-}
+// func increamentAge(p *Human) {
+// 	p.Age++
+// }
 
-func sayHello(name string) {
-	fmt.Println("Hello " + name)
-}
+// func sayHello(name string) {
+// 	fmt.Println("Hello " + name)
+// }
